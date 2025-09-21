@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crypto Bot Portfolio 3D Dynamic - Benja</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body {font-family:'Inter',sans-serif;background:#121212;color:#eee;margin:0;padding:30px;}
+.header{text-align:center;margin-bottom:40px;}
+h1{font-size:32px;color:#00E676;margin-bottom:5px;}
+h2{font-size:20px;color:#1DE9B6;margin-bottom:5px;}
+h3{color:#B0BEC5;font-size:16px;}
+.project-info{background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);padding:25px;border-radius:20px;margin-bottom:40px;line-height:1.6;box-shadow:0 15px 35px rgba(0,0,0,0.4);}
+.project-info strong{color:#fff;}
+.flowchart{display:flex;flex-direction:column;align-items:center;perspective:1200px;}
+.node{background:linear-gradient(145deg,#1B2735,#0F1821);border-radius:20px;padding:25px;margin:15px 0;min-width:350px;text-align:center;box-shadow:0 15px 35px rgba(0,0,0,0.5);border-left:6px solid #00E676;position:relative;cursor:pointer;transition:all 0.4s;transform-style:preserve-3d;}
+.node.active{transform:translateY(-10px) rotateX(5deg) rotateY(-5deg) scale(1.05);box-shadow:0 25px 55px rgba(0,0,0,0.7);}
+.node.active::after{content:'';position:absolute;top:-10px;left:-10px;width:calc(100% + 20px);height:calc(100% + 20px);border-radius:25px;box-shadow:0 0 20px #00E67680,0 0 40px #00E67640;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+.node .tooltip{visibility:hidden;width:300px;background:rgba(255,255,255,0.1);color:#fff;text-align:left;padding:12px;border-radius:12px;position:absolute;top:50%;left:105%;transform:translateY(-50%);opacity:0;backdrop-filter:blur(5px);transition:0.4s;}
+.node:hover .tooltip{visibility:visible;opacity:1;}
+.node canvas{margin-top:15px;border-radius:10px;}
+.trend-up{border-left-color:#00E676;background:linear-gradient(145deg,#1B2735,#00E67633);}
+.trend-down{border-left-color:#FF3D00;background:linear-gradient(145deg,#1B2735,#FF3D0033);}
+.trend-neutral{border-left-color:#9E9E9E;background:linear-gradient(145deg,#1B2735,#9E9E9E33);}
+.signal-buy{border-left-color:#00E676;background:linear-gradient(145deg,#1B2735,#00E67633);}
+.signal-sell{border-left-color:#FF3D00;background:linear-gradient(145deg,#1B2735,#FF3D0033);}
+.signal-none{border-left-color:#9E9E9E;background:linear-gradient(145deg,#1B2735,#9E9E9E33);}
+.arrow{position:relative;width:6px;height:40px;background:linear-gradient(#00E676,#1DE9B6);margin:-5px 0 15px 0;border-radius:3px;animation:flow 1.5s infinite;}
+.arrow::after{content:'';position:absolute;bottom:-12px;left:-8px;border-left:14px solid transparent;border-right:14px solid transparent;border-top:14px solid #00E676;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.4));}
+@keyframes flow{0%{background-position:0 0;}100%{background-position:0 100%;}}
+.details{margin-top:25px;text-align:center;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);padding:25px;border-radius:20px;box-shadow:0 15px 35px rgba(0,0,0,0.5);min-height:140px;font-size:16px;line-height:1.6;white-space:pre-wrap;transition:all 0.4s;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Crypto Bot Project</h1>
+  <h2>Owner: Benja</h2>
+  <h3>Portfolio Showcase - 3D Dynamic Flow & Signal Simulation</h3>
+</div>
+
+<div class="project-info">
+  <p><strong>Project Description:</strong> ระบบ Crypto Trading Bot อัตโนมัติ Binance Futures ใช้กลยุทธ์ RSI Breakout + Pullback + EMA Trend Analysis พร้อมส่งสัญญาณ Telegram</p>
+  <p><strong>Key Features:</strong></p>
+  <ul>
+    <li>Realtime Market Data Fetching (OHLCV 15m)</li>
+    <li>EMA Trend Analysis (EMA200 / EMA100 / EMA55)</li>
+    <li>Signal Detection: BUY / SELL ตามเงื่อนไข Trend + Pullback</li>
+    <li>Telegram Notification พร้อม Stage และ Price</li>
+    <li>Logging สัญญาณที่ส่งแล้ว</li>
+    <li>Interactive 3D Flowchart + Mini Graph Animated</li>
+  </ul>
+  <p><strong>Tech Stack:</strong> Python (ccxt, ta, asyncio, pandas), HTML/CSS/JS, Canvas, Telegram API</p>
+</div>
+
+<div class="flowchart">
+  <div class="node" data-step="Start Bot">Start Bot<span class="tooltip">Initialization & configuration</span></div>
+  <div class="arrow"></div>
+  <div class="node" data-step="Fetch Market Data">Fetch Market Data<span class="tooltip">Retrieve OHLCV candles</span><canvas width="300" height="50"></canvas></div>
+  <div class="arrow"></div>
+  <div class="node" data-step="Determine Trend">Trend Status<span class="tooltip">Analyze EMA200 trend</span><canvas width="300" height="50"></canvas></div>
+  <div class="arrow"></div>
+  <div class="node" data-step="Detect Signals">Signal Status<span class="tooltip">Check BUY/SELL conditions</span><canvas width="300" height="50"></canvas></div>
+  <div class="arrow"></div>
+  <div class="node" data-step="Send Telegram">Send Telegram<span class="tooltip">Send notification</span><canvas width="300" height="50"></canvas></div>
+  <div class="arrow"></div>
+  <div class="node" data-step="Log Signals">Log Signals<span class="tooltip">Save signals to file</span><canvas width="300" height="50"></canvas></div>
+  <div class="arrow"></div>
+  <div class="node" data-step="Loop / Repeat">Loop / Repeat<span class="tooltip">Repeat process</span><canvas width="300" height="50"></canvas></div>
+</div>
+
+<div class="details" id="details">Loading simulation...</div>
+
+<script>
+// JSON Data ฝังในไฟล์เดียว
+const botData = [
+  {"step":"Start Bot","trend":"neutral","signal":"NONE","price":0,"stage":0,"timestamp":"2025-09-21 17:00","ohlcv":[0,0,0,0,0,0]},
+  {"step":"Fetch Market Data","trend":"neutral","signal":"NONE","price":0,"stage":0,"timestamp":"2025-09-21 17:01","ohlcv":[0.51,0.52,0.53,0.51,0.52,0.51,0.53,0.54,0.52,0.53]},
+  {"step":"Determine Trend","trend":"uptrend","signal":"NONE","price":0.53,"stage":0,"timestamp":"2025-09-21 17:02","ohlcv":[0.52,0.53,0.54,0.53,0.55,0.54,0.56,0.55,0.57,0.56]},
+  {"step":"Detect Signals","trend":"uptrend","signal":"BUY","price":0.56,"stage":1,"timestamp":"2025-09-21 17:03","ohlcv":[0.54,0.55,0.56,0.55,0.57,0.56,0.58,0.57,0.59,0.58]},
+  {"step":"Send Telegram","trend":"uptrend","signal":"BUY","price":0.57,"stage":1,"timestamp":"2025-09-21 17:04","ohlcv":[0.55,0.56,0.57,0.56,0.58,0.57,0.59,0.58,0.60,0.59]},
+  {"step":"Log Signals","trend":"uptrend","signal":"BUY","price":0.58,"stage":1,"timestamp":"2025-09-21 17:05","ohlcv":[0.56,0.57,0.58,0.57,0.59,0.58,0.60,0.59,0.61,0.60]},
+  {"step":"Loop / Repeat","trend":"uptrend","signal":"NONE","price":0.59,"stage":0,"timestamp":"2025-09-21 17:06","ohlcv":[0.57,0.58,0.59,0.58,0.60,0.59,0.61,0.60,0.62,0.61]}
+];
+
+function getNode(step){ return document.querySelector(`.node[data-step="${step}"]`); }
+
+let idx=0;
+function updateNode(){
+  const current = botData[idx];
+  const nodes = document.querySelectorAll('.node');
+  nodes.forEach(n => { n.className='node'; n.textContent=n.dataset.step; });
+
+  const node = getNode(current.step);
+  node.classList.add('active');
+
+  // Trend Node
+  if(current.step.includes('Trend')){
+    const cls = current.trend==='uptrend'?'trend-up':current.trend==='downtrend'?'trend-down':'trend-neutral';
+    node.classList.add(cls);
+    node.textContent = `${current.trend==='uptrend'?'📈':current.trend==='downtrend'?'📉':'➖'} ${node.dataset.step}`;
+  }
+  // Signal Node
+  else if(current.step.includes('Signal')){
+    const cls = current.signal==='BUY'?'signal-buy':current.signal==='SELL'?'signal-sell':'signal-none';
+    const emoji = current.signal==='BUY'?'💚':current.signal==='SELL'?'❤️':'⚪';
+    node.classList.add(cls);
+    node.textContent = `${emoji} ${node.dataset.step}`;
+  }
+
+  // Mini Graph Animated
+  const canvas = node.querySelector('canvas');
+  if(canvas && current.ohlcv && current.ohlcv.length>0){
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    const max = Math.max(...current.ohlcv), min = Math.min(...current.ohlcv);
+    const scaleY = canvas.height/(max-min+0.0001);
+    ctx.beginPath();
+    current.ohlcv.forEach((p,i)=>{
+      const x = i*(canvas.width/(current.ohlcv.length-1));
+      const y = canvas.height - (p-min)*scaleY;
+      if(i===0) ctx.moveTo(x,y);
+      else ctx.lineTo(x,y);
+    });
+    ctx.strokeStyle='#00E676';
+    ctx.lineWidth=3;
+    ctx.stroke();
+  }
+
+  // Details Panel
+  document.getElementById('details').textContent = 
+    `Step: ${current.step}\nTrend: ${current.trend}\nSignal: ${current.signal}\nPrice: ${current.price}\nStage: ${current.stage}\nTime: ${current.timestamp}`;
+
+  idx = (idx+1) % botData.length;
+  setTimeout(updateNode,1800);
+}
+
+updateNode();
+</script>
+
+</body>
+</html>
